@@ -4,6 +4,7 @@ import io.netty.handler.codec.http.HttpContentEncoder;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -40,20 +41,34 @@ public class FruitResource {
 
 
     // untuk menambahkan data
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Result addFruit(Fruit fruit){
+//        Set<ConstraintViolation<Fruit>> violations = validator.validate(fruit); // violations digunakan untuk menampung pelanggaran/kesalahan
+//
+//        // pengecekan jika tidak ada kesalahan / fields nama tidak kosong
+//        if (violations.isEmpty()){
+//            fruits.add(fruit);
+//            return new Result("buah " + fruit.name + " berhasil ditambahkan");
+//        } else {
+//            return new Result(violations);
+//        }
+//    }
+
+
+
+    // validasi dengan REST end point validation
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Result addFruit(Fruit fruit){
-        Set<ConstraintViolation<Fruit>> violations = validator.validate(fruit); // violations digunakan untuk menampung kesalahan
-
-        // pengecekan jika tidak ada kesalahan / fields nama tidak kosong
-        if (violations.isEmpty()){
-            fruits.add(fruit);
-            return new Result("buah " + fruit.name + " berhasil ditambahkan");
-        } else {
-            return new Result(violations);
-        }
+    public Result addFruit(@Valid Fruit fruit){
+       fruits.add(fruit);
+       return new Result("Buah "+ fruit.name + " berhasil di tambahkan");
     }
+
+
 
     // untuk menambahkan beberapa data sekaligus
     @POST
